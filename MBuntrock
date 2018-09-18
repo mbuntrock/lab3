@@ -1,0 +1,108 @@
+---
+title: "Lab3_buntrock"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+Part A) Open the diamonds dataset. (9 points total)
+```{r}
+library(ggplot2)
+data("diamonds")
+```
+1a. Create a stem and leaf plot to display information about the size of the diamond (carat) (1)
+```{r}
+stem(diamonds$carat)
+```
+1b. Is this an effective display of the data? Why or why not? (1)
+```{r}
+#no this is not an effective display because the data is so large it is not helpful in efficiently explaining the data. Also, i dion't think stem and leaf plots are not very intuitve so they layman would have trouble underserstanding what it means#
+```
+
+2a. Create a histogram of the carat column in the diamonds dataset. (1)
+```{r}
+ggplot(diamonds, aes(carat)) + geom_histogram(binwidth = .05)
+
+```
+2b. Describe the distribution (1)
+#the distribution is positively skewed
+2c. Is this an effective display of the data? Why or why not? (1)
+#i feel like this histogram is a pretty effective display of the data because it tells you how many in the data set have 'x' amount of carats. It wouldnt be good to make claims but as a researcher and the lay-person these are easy to understand and get a general idea.
+```
+3a. Make a scatter plot of price by carat (1)
+```{r}
+ggplot(diamonds, aes(price, carat)) +geom_point()
+
+```
+3b. What type of relationship probably exists between these two variables? (1)
+#positive relationship
+```
+
+4. Make a new scatterplot of price by carat, grouped according to cut (2)
+```{r}
+ggplot(diamonds, aes(price, carat)) +geom_point()+facet_wrap(~cut)
+
+```
+Part B) Open the ChickWeight dataset (11 pts total)
+```{r}
+data("ChickWeight")
+```
+1a. Create a box plot comparing weights of chicks in each diet (1)
+```{r}
+ggplot(ChickWeight, aes(x=Diet, y= weight))+geom_boxplot()
+```
+
+1b. Broadly, what does this graph show us? (1)
+#this graph shows us the 'spread' of the data in each diet. In each diet the boxplot shows the 25th %tile, 75th%tile, outliers, upper and lower adjacent values, and the median
+3c. Are there any outliers? If so, where? (1)
+#yes there are 4 outliers in diet 1 and 2 outliers in diet 2
+```
+
+2. Create a histogram that displays also both weight and diet (hint: use fill to graph the discrete variable) (3)
+```{r}
+ggplot(ChickWeight, aes(x=Diet, y=weight))+geom_histogram(stat= "identity", fill= ChickWeight$Diet)
+```
+
+3. In your opinion, which graph gives you more information and why? (1)
+#I think the box plot give you more information because of all the data it gives you (media, 25%tile, 75%tile, outliers, etc) but a histogram is visually more intuitive.  
+4. Calculate the mean, median, range, and interquartile range for diet 1 (4)
+```{r}
+ mchick<- tapply(ChickWeight$weight, ChickWeight$Diet, mean)
+ print(mchick)
+ #diet1 mean: 102.645#
+
+medianchick<- tapply(ChickWeight$weight, ChickWeight$Diet, median) print(medianchick)
+#diet1 median: 88 
+
+rchick<- tapply(ChickWeight$weight, ChickWeight$Diet, range)
+print(rchick)
+#diet1 range: 305-35= 270
+
+ichick<- tapply(ChickWeight$weight, ChickWeight$Diet, IQR)
+print(ichick)
+#diet1 IQR: 78.75
+```
+
+Part C) Open the Dietox dataset (3 pts total)
+```{r}
+library(doBy)
+data(Dietox)
+```
+1a. Briefly summarize what the dietox dataset is about (hint: ?dietox should be helpful) (1)
+##diets and detoxes is a group of pigs; it covers things like weight, type of feed, time they start and stop and the litter the pigs come from. 
+1b. Create an object that stores the summary of mean weight according to copper dose. (1)
+```{r}
+cu75<-(dietox$Weight[dietox$Cu=="Cu175"])
+summary(cu75)
+#62.20
+c35<- (dietox$Weight[dietox$Cu=="Cu035"])
+summary(c35)
+#59.71
+c00<- (dietox$Weight[dietox$Cu=="Cu000"])
+summary(c00)
+#60.29
+```
+1c. Which copper dose resulted in the mean highest weight gain? (1)
+```{r}
+#COPPER 175
+```
